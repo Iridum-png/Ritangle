@@ -14,6 +14,7 @@ import itertools
 
 total = 0
 def sol1():
+    total = 0
     for a, b, c, d, e, f, g, h, i, j in itertools.permutations(range(10)):
         if (a*1000000000 + b*100000000 + c*10000000 + d*1000000 + e*100000 + f*10000 + g*1000 + h*100 + i*10 + j) % 10 == 0 and \
         (a*100000000 + b*10000000 + c*1000000 + d*100000 + e*10000 + f*1000 + g*100 + h*10 + i) % 9 == 0 and \
