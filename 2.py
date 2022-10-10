@@ -12,7 +12,6 @@
 
 import itertools
 
-total = 0
 def sol1():
     total = 0
     for a, b, c, d, e, f, g, h, i, j in itertools.permutations(range(10)):
