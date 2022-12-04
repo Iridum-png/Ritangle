@@ -20,8 +20,8 @@ fn main() {
     //     prev = angle
 
     for i in 0..angles.len() {
-        let angle: f32 = angles[i];
-        let x: f32 = prev / 2;
+        let angle: f32 = angles[i].into();
+        let x: f32 = prev / 2.0;
         length += 1.0 / (angle - x).cos();
         prev = angle;
         println!("({}, {})", length, length * 0.74);
