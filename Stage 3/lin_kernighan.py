@@ -64,7 +64,7 @@ def replace_sub_tour(tour, sub_tour, modified_sub_tour):
     # Create a new tour by replacing the sub-tour with the modified sub-tour
     new_tour = tour[:start_index] + modified_sub_tour + tour[end_index:]
     
-    return sub_tour
+    return new_tour
 
 def tour_length(tour, distances):
     # Initialize the length of the tour with the distance from the last node to the first node
