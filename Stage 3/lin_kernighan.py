@@ -76,10 +76,49 @@ def tour_length(tour, distances):
     
     return length
 
-distances = [[0, 5, 2, 6],
-             [5, 0, 4, 3],
-             [2, 4, 0, 5],
-             [6, 3, 5, 0]]
+def open_file():
+    with open(r'C:\Users\ed9ba\Documents\Coding\Python\Ritangle\Stage 3\graph.txt', 'r') as f:
+        distances = f.readlines()
 
-best_tour = lin_kernighan(distances)
-print(best_tour)
+    for i, subarray in enumerate(distances):
+        distances[i] = subarray.replace(" \n", "")
+        distances[i] = distances[i].split(" ")
+        
+    # Convert all values in the array to floats
+    for i, subarray in enumerate(distances):
+        for j, value in enumerate(subarray):
+            distances[i][j] = float(value)
+            
+    return distances
+
+
+
+def calc_distance(distances, best_tour):
+    total_distance = 0
+
+    for i in range(len(best_tour) - 1):
+        total_distance += distances[best_tour[i] - 1][best_tour[i + 1] - 1]
+    return total_distance
+
+def get_best():
+    best_tour = lin_kernighan(distances)
+    while True:
+        best_tour = lin_kernighan(distances)
+        if best_tour[0] == 1 and best_tour[-1] == 58:
+            print(best_tour)
+            print(len(set(best_tour)))
+            return best_tour
+
+distances = open_file()
+
+possible = []
+
+# best_tour = [1, 4, 15, 9, 17, 38, 56, 57, 35, 27, 53, 3, 7, 11, 6, 46, 59, 54, 10, 18, 49, 30, 40, 36, 23, 39, 22, 55, 19, 32, 51, 44, 29, 42, 50, 26, 31, 25, 45, 21, 43, 33, 12, 2, 0, 41, 20, 5, 13, 24, 37, 47, 48, 52, 8, 14, 34, 28, 16, 58]
+for i in range(10):
+    best_tour = get_best()
+
+    total_distance = calc_distance(distances, best_tour)
+        
+    print(total_distance)
+    possible.append(total_distance)
+print(min(possible))

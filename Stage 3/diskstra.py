@@ -10,7 +10,7 @@ class Graph:
         self.edges[u][v] = weight
         self.edges[v][u] = weight
 
-g = Graph(3)
+g = Graph(60)
 
 def dijkstra(start_vertex, graph=g):
     graph.visited = []
@@ -36,18 +36,24 @@ def dijkstra(start_vertex, graph=g):
                         D[neighbor] = new_cost
     return D
 
-graph = {0: {1: 10, 2: 20},
-         1: {0: 10, 2: 30},
-         2: {0: 20, 1: 30}
-    }
+with open(r"C:\Users\ed9ba\Documents\Coding\Python\Ritangle\Stage 3\graph.json", "r") as f:
+    graph = eval(f.read())
 
 for node in graph.keys():
     for target in graph[node].keys():
         g.add_edge(node, target, graph[node][target])
 
+open("Stage 3\graph.txt", "w").close()
+
 for node in range(len(graph)):
     D = dijkstra(node)
+    curr_node = []
     for vertex in range(len(D)):
         if vertex == node:
+            curr_node.append(0)
             continue
-        print(f"Distance from vertex {node} to vertex {vertex} is {D[vertex]}")
+        curr_node.append(D[vertex])
+    with open("Stage 3\graph.txt", "a") as f:
+        for i in range(len(curr_node)):
+            f.write(str(curr_node[i]) + " ")
+        f.write("\n")
