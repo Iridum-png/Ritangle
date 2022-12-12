@@ -29,7 +29,7 @@ class Node:
                     mindist = dist
         self.data = data
         return data
-    
+
     def angle(self):
         target, height = self.data[4], self.height
         for angle in range(90, 0, -1):
