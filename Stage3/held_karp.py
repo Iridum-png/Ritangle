@@ -1,5 +1,3 @@
-import math
-
 def held_karp(distances):
   # Create a dictionary to store the minimum distance to each subproblem
   min_distances = {}
@@ -18,24 +16,24 @@ def held_karp(distances):
       return distances[last][0]
     
     # Set the minimum distance to a large number
-    min_distance = math.inf
+    min_distance = float('inf')
     
     # Iterate over the cities
     for city in range(len(distances)):
       # Skip the city if it has already been visited
       if visited & (1 << city):
         continue
-      
+
       # Calculate the minimum distance to the subproblem by visiting the current city
       distance = distances[last][city] + get_min_distance(visited | (1 << city), city)
-      
+
       # Update the minimum distance if necessary
       min_distance = min(min_distance, distance)
-    
+
     # Store the minimum distance to the subproblem and return it
     min_distances[subproblem] = min_distance
     return min_distance
-  
+
   # Return the minimum distance to the original problem by starting at city 0
   return get_min_distance(1, 0)
 

@@ -3,11 +3,12 @@ import numpy as np
 def lin_kernighan(distances):
     # Initialize the current tour with a random permutation of the nodes
     current_tour = list(range(len(distances)))
+    first = [current_tour.pop(1), current_tour.pop(5)]
+    last = [current_tour.pop(-1), current_tour.pop(-1)]
     np.random.shuffle(current_tour)
-    
-    # Initialize the best tour with the current tour
-    best_tour = current_tour
-    
+    best_tour = first + current_tour + last
+    current_tour = best_tour
+
     # Loop until no improvements are found
     while True:
         # Find the sub-tour in the current tour to modify
@@ -26,7 +27,7 @@ def lin_kernighan(distances):
         else:
             # No more improvements can be found, return the best tour
             return best_tour
-	    
+
 def find_sub_tour(tour):
     # Randomly select two nodes from the tour
     node1, node2 = np.random.choice(tour, 2)
@@ -77,7 +78,7 @@ def tour_length(tour, distances):
     return length
 
 def open_file():
-    with open(r'C:\Users\ed9ba\Documents\Coding\Python\Ritangle\Stage 3\graph.txt', 'r') as f:
+    with open(r'C:\Users\ed9ba\Documents\Coding\Python\Ritangle\Stage3\graph.txt', 'r') as f:
         distances = f.readlines()
 
     for i, subarray in enumerate(distances):
@@ -91,8 +92,6 @@ def open_file():
             
     return distances
 
-
-
 def calc_distance(distances, best_tour):
     total_distance = 0
 
@@ -104,21 +103,20 @@ def get_best():
     best_tour = lin_kernighan(distances)
     while True:
         best_tour = lin_kernighan(distances)
-        if best_tour[0] == 1 and best_tour[-1] == 58:
-            print(best_tour)
-            print(len(set(best_tour)))
-            return best_tour
+        # print(best_tour)
+        # print(len(set(best_tour)))
+        return best_tour
 
 distances = open_file()
-
 possible = []
+min = float('inf')
 
 # best_tour = [1, 4, 15, 9, 17, 38, 56, 57, 35, 27, 53, 3, 7, 11, 6, 46, 59, 54, 10, 18, 49, 30, 40, 36, 23, 39, 22, 55, 19, 32, 51, 44, 29, 42, 50, 26, 31, 25, 45, 21, 43, 33, 12, 2, 0, 41, 20, 5, 13, 24, 37, 47, 48, 52, 8, 14, 34, 28, 16, 58]
-for i in range(10):
+while True:
     best_tour = get_best()
 
     total_distance = calc_distance(distances, best_tour)
-        
-    print(total_distance)
-    possible.append(total_distance)
-print(min(possible))
+    if total_distance < min:
+        print(best_tour)
+        print(total_distance)
+        min = total_distance
