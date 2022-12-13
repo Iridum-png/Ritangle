@@ -3,12 +3,12 @@ import numpy as np
 def lin_kernighan(distances):
     # Initialize the current tour with a random permutation of the nodes
     current_tour = list(range(len(distances)))
-    first = [current_tour.pop(1), current_tour.pop(5)]
-    last = [current_tour.pop(-1), current_tour.pop(-1)]
+    first = [current_tour.pop(1)]
+    last = [current_tour.pop(-1)]
     np.random.shuffle(current_tour)
     best_tour = first + current_tour + last
     current_tour = best_tour
-
+    # current_tour = [1, 3, 8, 7, 6, 0, 2, 16, 22, 26, 32, 30, 34, 38, 42, 39, 35, 27, 20, 14, 12, 17, 24, 25, 18, 4, 5, 19, 11, 10, 9, 13, 15, 21, 28, 23, 29, 31, 33, 40, 36, 43, 41, 37, 45, 48, 52, 49, 53, 54, 56, 55, 57, 59, 44, 46, 50, 51, 47, 58]
     # Loop until no improvements are found
     while True:
         # Find the sub-tour in the current tour to modify
@@ -31,7 +31,7 @@ def lin_kernighan(distances):
 def find_sub_tour(tour):
     # Randomly select two nodes from the tour
     node1, node2 = np.random.choice(tour, 2)
-    
+
     # Find the sub-tour by starting at node1 and following the tour until node2 is reached
     sub_tour = []
     for i in range(len(tour)):
@@ -39,42 +39,42 @@ def find_sub_tour(tour):
         if tour[i] == node2:
             break
     return sub_tour
-    
+
 def find_best_modification(sub_tour, distances):
     # Initialize the best modification to the sub-tour with the original sub-tour
     best_modification = sub_tour
-    
+
     # Loop over the possible modifications to the sub-tour
     for i in range(1, len(sub_tour) - 1):
         for j in range(i + 1, len(sub_tour)):
             # Create a new sub-tour by reversing the section between i and j in the original sub-tour
             new_sub_tour = sub_tour[:i] + list(reversed(sub_tour[i:j])) + sub_tour[j:]
-            
+
             # Check if the new sub-tour is better than the best modification
             if tour_length(new_sub_tour, distances) < tour_length(best_modification, distances):
                 # Update the best modification
                 best_modification = new_sub_tour
-		
+
     return best_modification
 
 def replace_sub_tour(tour, sub_tour, modified_sub_tour):
     # Find the start and end indices of the sub-tour in the original tour
     start_index = tour.index(sub_tour[0])
     end_index = start_index + len(sub_tour)
-    
+
     # Create a new tour by replacing the sub-tour with the modified sub-tour
     new_tour = tour[:start_index] + modified_sub_tour + tour[end_index:]
-    
+
     return new_tour
 
 def tour_length(tour, distances):
     # Initialize the length of the tour with the distance from the last node to the first node
     length = distances[tour[-1]][tour[0]]
-    
+
     # Loop over the nodes in the tour and add the distance from each node to the next node to the length
     for i in range(len(tour) - 1):
         length += distances[tour[i]][tour[i + 1]]
-    
+
     return length
 
 def open_file():
@@ -84,12 +84,12 @@ def open_file():
     for i, subarray in enumerate(distances):
         distances[i] = subarray.replace(" \n", "")
         distances[i] = distances[i].split(" ")
-        
+
     # Convert all values in the array to floats
     for i, subarray in enumerate(distances):
         for j, value in enumerate(subarray):
             distances[i][j] = float(value)
-            
+
     return distances
 
 def calc_distance(distances, best_tour):
